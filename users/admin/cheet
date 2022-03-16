@@ -1,0 +1,257 @@
+CREATE TABLE petadopt(
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    gender varchar(255),
+    age varchar(255),
+    breed varchar(255),
+    date varchar(255),
+    place varchar(255),
+    descript varchar(255),
+    avail varchar(255),
+    file varchar(255),
+    PRIMARY KEY (id)
+
+CREATE TABLE expenses(
+    id int NOT NULL AUTO_INCREMENT,
+    totalexp decimal(11,2),
+    PRIMARY KEY (id))
+
+CREATE TABLE petlf(
+    id int AUTO_INCREMENT,
+    name varchar(255),
+    date varchar(255),
+    place varchar(255),
+    gender varchar(255),
+    breed varchar(255),
+    age varchar(255),
+    descript varchar(255),
+    collar varchar(255),
+    avail varchar(255),
+    file varchar(255),
+    PRIMARY KEY (id)
+);
+
+ #1511f7
+ #e31010
+ #edf50c
+ #0eed12
+ #e00af0
+
+
+CREATE TABLE petadopt(
+    id int AUTO_INCREMENT,
+    name varchar(255),
+    gender varchar(255),
+    breed varchar(255),
+    age varchar(255),
+	file varchar(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE adopt(
+    id int AUTO_INCREMENT,
+    petname varchar(255),
+    fullname varchar(255),
+    email varchar(255),
+    addre varchar(255),
+    mobile varchar(255),
+	amobile varchar(255),
+    q1 varchar(255),
+    q2 varchar(255),
+    q3 varchar(255),
+    exp varchar(255),
+    agree varchar(255),
+    PRIMARY KEY (id)
+);
+
+
+
+ <form action="code.php" method="POST">
+
+   <div class="modal-body">
+       <div class="form-group">
+               <label class = "float-start">Name of the Pet you will be adopt.</label>
+               <select name="petgender" class="form-control">
+               <option value = "<?php echo $row['name']; ?>">  <?php echo $row['name']; ?> </option>
+               </select>
+               </div>
+       <div class="form-group py-2">
+                <label class = "float-start">Enter Your Full Name</label>
+                <input type="text" name="fname" class="form-control" placeholder="Please Enter Your Full Name" required>
+            </div>
+         <div class="form-group py-2">
+                <label class = "float-start">Enter Your Personal Email Address</label>
+                <input type="text" name="email" class="form-control" placeholder="Please Enter Your Personal Address" required>
+            </div>
+       
+         <div class="form-group py-2">
+                <label class = "float-start">Enter Your Personal Address</label>
+                <input type="text" name="address" class="form-control" placeholder="Please Enter Your Personal Address" required>
+            </div>
+
+            <div class="form-group py-2">
+                <label class = "float-start">Enter Your Personal Mobile Number</label>
+                <input type="text" name="mobile" class="form-control" placeholder="Please Enter Personal Mobile Number" required>
+            </div>
+
+            <div class="form-group py-2">
+                <label class = "float-start">If necessary Please Enter Alternate Mobile Number </label>
+                <input type="text" name="amobile" class="form-control" placeholder="Please Enter Alternate Personal Number Name" required>
+            </div>
+            <br>
+            <!-- <p class = "float-start">Please Answer the following questions:</p>
+            <br>
+            <p class = "float-start me-3">Do you have experience taking care of a pet?</p>
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q1" type="checkbox" id="inlineCheckbox1" value="Yes" />
+           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+           </div>
+
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q1" type="checkbox" id="inlineCheckbox2" value="No" />
+           <label class="form-check-label" for="inlineCheckbox2">No</label>
+          </div>
+
+          <p class = "float-start me-3">Currently do you have pet in your home?</p>
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q2" type="checkbox" id="inlineCheckbox1" value="Yes" />
+           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+           </div>
+
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q2" type="checkbox" id="inlineCheckbox2" value="No" />
+           <label class="form-check-label" for="inlineCheckbox2">No</label>
+          </div>
+          
+          <p class = "float-start me-3">Do you have some friends that have a pet?</p>
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q3" type="checkbox" id="inlineCheckbox1" value="Yes" />
+           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+           </div>
+
+           <div class="form-check form-check-inline mt-3 me-1">
+           <input class="form-check-input" name = "q3" type="checkbox" id="inlineCheckbox2" value="No" />
+           <label class="form-check-label" for="inlineCheckbox2">No</label>
+          </div> -->
+                  <br>
+
+          <div class="form-group py-2">
+                <label class = "float-start">Please provide brief explanation on why you should be a dog parent of <?php echo $row['name']; ?>.</label>
+                <input type="text" name="exp" class="form-control" placeholder="Please provide brief explanation" required>
+            </div>
+
+          <!-- <div class="form-check form-check-inline">
+           <input class="form-check-input" name = "agree" type="checkbox" id="inlineCheckbox1" value="Yes" />
+           <label class="form-check-label mb-1 justify-content" for="inlineCheckbox2">I hereby declared that the information provided is honestly
+           true and correct. I also understand that any  will full dishonestly may result to refusal to this adoption form and
+           the shelter has the right to take legal against this kind of act</label>
+          </div> -->
+
+
+
+
+              $petname = $_POST['pname'];
+    $fullname = $_POST['fname'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $mobile = $_POST['mobile'];
+    $amobile = $_POST['amobile'];
+    // $q1 = $_POST['q1'];
+    // $q2 = $_POST['q2'];
+    // $q3 = $_POST['q3'];
+    $exp = $_POST['exp'];
+    // $agree = $_POST['agree'];
+
+    $query = "INSERT INTO adopt (`pname`,`fullname`, `email`, `addre`, `mobile`, `amobile`, `exp`)
+     VALUES ('$petname', $fullname', '$email', '$address', '$mobile', '$amobile', '$exp')";
+    $query_run = mysqli_query($con, $query);
+
+
+
+ <p class = "float-start">Please Answer the following questions:</p>
+            <br>
+            <p class = "float-start me-3">Do you have experience taking care of a pet?</p>
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q1" type="checkbox" id="inlineCheckbox1" value="Yes" />
+           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+           </div>
+
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q1" type="checkbox" id="inlineCheckbox2" value="No" />
+           <label class="form-check-label" for="inlineCheckbox2">No</label>
+          </div>
+
+          <p class = "float-start me-3">Currently do you have pet in your home?</p>
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q2" type="checkbox" id="inlineCheckbox1" value="Yes" />
+           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+           </div>
+
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q2" type="checkbox" id="inlineCheckbox2" value="No" />
+           <label class="form-check-label" for="inlineCheckbox2">No</label>
+          </div>
+          
+          <p class = "float-start me-3">Do you have some friends that have a pet?</p>
+           <div class="form-check form-check-inline mt-3">
+           <input class="form-check-input" name = "q3" type="checkbox" id="inlineCheckbox1" value="Yes" />
+           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+           </div>
+
+           <div class="form-check form-check-inline mt-3 me-1">
+           <input class="form-check-input" name = "q3" type="checkbox" id="inlineCheckbox2" value="No" />
+           <label class="form-check-label" for="inlineCheckbox2">No</label>
+          </div> 
+                  <br>
+
+
+<div class="container mt-5 ">
+    <div class="row mt-5 ">
+        <div class="card mx-auto">
+             <div class="card-body">
+                <H1 class = "text-center text-dark">TOTAL EXPENSES</H1>
+                <?php
+                $connection = mysqli_connect("localhost", "root", "", "adminpanel");
+
+                $sql = "SELECT  SUM(totalexp) from expenses";
+                $result = $connection->query($sql);
+                
+                while($row = mysqli_fetch_array($result)){
+                    echo "<h1> Total cost: ". $row['SUM(totalexp)'];
+                    echo "<br>";
+                }
+
+                ?>
+
+
+             </div>
+
+        </div>
+    </div>
+</div>
+
+
+if(isset($_POST['viewlfupdatebtn']))
+{
+    $id = $_POST['edit_id'];
+    $name = $_POST['edit_pname'];
+    $fname = $_POST['edit_fname'];
+    $email = $_POST['edit_email'];
+    $add = $_POST['edit_add'];
+    $num= $_POST['edit_num'];
+    $anum = $_POST['edit_anum'];
+    $q1 = $_POST['edit_q1'];
+    $details = $_POST['edit_details'];
+    $file = $_FILES["edit_file"]['name'];
+    $agree = $_POST['edit_agree'];
+    $status = $_POST['edit_status'];
+
+    $query = "UPDATE lost SET petname='$name', fullname='$fname', email='$email', addre='$add', mobile='$num', amobile='$anum',  q1='$q1', details='$details', file='$file', agree='$agree', stat='$status' WHERE id='$id' ";
+
+
+       <form action="formadopt.php" method= "post">
+    <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
+    <button type="submit" class=" btn btn-outline-primary btn-rounded" name="edit_adopt" >
+    <i class="far fa-paper-plane"></i> Send a Adoption Form
+      </button>
+    </form>       
