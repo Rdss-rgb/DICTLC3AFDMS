@@ -1,0 +1,128 @@
+[18:11:52][liftinstall][INFO] yuzu installer
+[18:11:52][liftinstall][INFO] Starting fresh install
+[18:11:52][liftinstall::frontend::rest::server][INFO] Spawning server instance @ V6([::1]:54856)
+[18:11:52][liftinstall::frontend::rest::server][INFO] Spawning server instance @ V4(127.0.0.1:54856)
+[18:11:52][liftinstall::frontend::ui][INFO] Spawning web view instance
+[18:11:54][liftinstall::frontend::js][INFO] Making HTTP request to /api/dark-mode
+[18:11:55][liftinstall::frontend::js][INFO] Making HTTP request to /api/installation-status
+[18:11:55][liftinstall::frontend::js][INFO] Vue started
+[18:11:55][liftinstall::frontend::js][INFO] Making HTTP request to /api/config
+[18:11:55][liftinstall::frontend::rest::services::config][INFO] Downloading configuration from "https://raw.githubusercontent.com/yuzu-emu/liftinstall/master/config.windows.v10.toml"...
+[18:11:56][liftinstall::frontend::rest::services::config][INFO] Configuration file downloaded successfully.
+[18:11:56][liftinstall::frontend::js][INFO] Making HTTP request to /api/check-auth
+[18:11:56][liftinstall::frontend::rest::services::authentication][INFO] No passed in credential and no stored credentials to validate
+[18:11:56][liftinstall::frontend::js][INFO] Making HTTP request to /api/default-path
+[18:11:56][liftinstall::frontend::js][INFO] Next stop: "/packages"
+[18:12:41][liftinstall::frontend::js][INFO] Installer kind: regular
+[18:12:41][liftinstall::frontend::js][INFO] Installing desktop shortcut: true
+[18:12:41][liftinstall::frontend::js][INFO] Making streaming HTTP request to /api/start-install
+[18:12:41][liftinstall::frontend::rest::services::install][INFO] Found installDesktopShortcut "true"
+[18:12:41][liftinstall::installer][INFO] Framework: Installing ["yuzu"] to "C:\\Users\\USER\\AppData\\Local\\yuzu"
+[18:12:41][liftinstall::installer][INFO] Dependency tree:
+InstallTask
+├── Pre EnsureOnlyInstanceTask
+├── Pre VerifyInstallDirTask (with clean-install = true)
+├── Pre InstallPackageTask (for "yuzu")
+│   ├── Pre DownloadPackageTask (for "yuzu")
+│   │   └── Pre CheckAuthorizationTask (for "yuzu")
+│   │       └── Pre ResolvePackageTask (for "yuzu")
+│   ├── Pre UninstallPackageTask (for "yuzu", optional = true)
+│   │   ├── Pre UninstallShortcutsTask (for "yuzu", optional = true)
+│   │   └── Post SaveDatabaseTask
+│   ├── Post InstallShortcutsTask (for "yuzu")
+│   ├── Post InstallDesktopShortcutTask (for "yuzu", should_run = true)
+│   └── Post SaveDatabaseTask
+├── Pre SaveExecutableTask
+├── Pre InstallGlobalShortcutsTask
+│   └── Post SaveDatabaseTask
+└── Post LaunchOnExitTask
+[18:12:41][liftinstall::frontend::rest::services::install][ERROR] Install error occurred: "Install destination (\"C:\\\\Users\\\\USER\\\\AppData\\\\Local\\\\yuzu\") is not empty."
+[18:13:58][liftinstall::frontend::js][INFO] Installer kind: regular
+[18:13:58][liftinstall::frontend::js][INFO] Installing desktop shortcut: true
+[18:13:58][liftinstall::frontend::js][INFO] Making streaming HTTP request to /api/start-install
+[18:13:58][liftinstall::frontend::rest::services::install][INFO] Found installDesktopShortcut "true"
+[18:13:58][liftinstall::installer][INFO] Framework: Installing ["yuzu"] to "C:\\Users\\USER\\AppData\\Local\\yuzu"
+[18:13:58][liftinstall::installer][INFO] Dependency tree:
+InstallTask
+├── Pre EnsureOnlyInstanceTask
+├── Pre VerifyInstallDirTask (with clean-install = true)
+├── Pre InstallPackageTask (for "yuzu")
+│   ├── Pre DownloadPackageTask (for "yuzu")
+│   │   └── Pre CheckAuthorizationTask (for "yuzu")
+│   │       └── Pre ResolvePackageTask (for "yuzu")
+│   ├── Pre UninstallPackageTask (for "yuzu", optional = true)
+│   │   ├── Pre UninstallShortcutsTask (for "yuzu", optional = true)
+│   │   └── Post SaveDatabaseTask
+│   ├── Post InstallShortcutsTask (for "yuzu")
+│   ├── Post InstallDesktopShortcutTask (for "yuzu", should_run = true)
+│   └── Post SaveDatabaseTask
+├── Pre SaveExecutableTask
+├── Pre InstallGlobalShortcutsTask
+│   └── Post SaveDatabaseTask
+└── Post LaunchOnExitTask
+[18:13:58][liftinstall::frontend::rest::services::install][ERROR] Install error occurred: "Install destination (\"C:\\\\Users\\\\USER\\\\AppData\\\\Local\\\\yuzu\") is not empty."
+[18:15:56][liftinstall::frontend::js][INFO] Installer kind: regular
+[18:15:56][liftinstall::frontend::js][INFO] Installing desktop shortcut: true
+[18:15:56][liftinstall::frontend::js][INFO] Making streaming HTTP request to /api/start-install
+[18:15:56][liftinstall::frontend::rest::services::install][INFO] Found installDesktopShortcut "true"
+[18:15:56][liftinstall::installer][INFO] Framework: Installing ["yuzu"] to "C:\\Users\\USER\\AppData\\Local\\yuzu"
+[18:15:56][liftinstall::installer][INFO] Dependency tree:
+InstallTask
+├── Pre EnsureOnlyInstanceTask
+├── Pre VerifyInstallDirTask (with clean-install = true)
+├── Pre InstallPackageTask (for "yuzu")
+│   ├── Pre DownloadPackageTask (for "yuzu")
+│   │   └── Pre CheckAuthorizationTask (for "yuzu")
+│   │       └── Pre ResolvePackageTask (for "yuzu")
+│   ├── Pre UninstallPackageTask (for "yuzu", optional = true)
+│   │   ├── Pre UninstallShortcutsTask (for "yuzu", optional = true)
+│   │   └── Post SaveDatabaseTask
+│   ├── Post InstallShortcutsTask (for "yuzu")
+│   ├── Post InstallDesktopShortcutTask (for "yuzu", should_run = true)
+│   └── Post SaveDatabaseTask
+├── Pre SaveExecutableTask
+├── Pre InstallGlobalShortcutsTask
+│   └── Post SaveDatabaseTask
+└── Post LaunchOnExitTask
+[18:15:56][liftinstall::frontend::rest::services::install][ERROR] Install error occurred: "Install destination (\"C:\\\\Users\\\\USER\\\\AppData\\\\Local\\\\yuzu\") is not empty."
+[18:15:58][liftinstall::installer][INFO] Shutting down installer framework...
+[18:19:33][liftinstall][INFO] yuzu installer
+[18:19:33][liftinstall][INFO] Starting fresh install
+[18:19:33][liftinstall::frontend::rest::server][INFO] Spawning server instance @ V6([::1]:51509)
+[18:19:33][liftinstall::frontend::rest::server][INFO] Spawning server instance @ V4(127.0.0.1:51509)
+[18:19:33][liftinstall::frontend::ui][INFO] Spawning web view instance
+[18:19:34][liftinstall::frontend::js][INFO] Making HTTP request to /api/dark-mode
+[18:19:34][liftinstall::frontend::js][INFO] Making HTTP request to /api/installation-status
+[18:19:34][liftinstall::frontend::js][INFO] Vue started
+[18:19:34][liftinstall::frontend::js][INFO] Making HTTP request to /api/config
+[18:19:34][liftinstall::frontend::rest::services::config][INFO] Downloading configuration from "https://raw.githubusercontent.com/yuzu-emu/liftinstall/master/config.windows.v10.toml"...
+[18:19:34][liftinstall::frontend::rest::services::config][INFO] Configuration file downloaded successfully.
+[18:19:34][liftinstall::frontend::js][INFO] Making HTTP request to /api/check-auth
+[18:19:34][liftinstall::frontend::rest::services::authentication][INFO] No passed in credential and no stored credentials to validate
+[18:19:34][liftinstall::frontend::js][INFO] Making HTTP request to /api/default-path
+[18:19:34][liftinstall::frontend::js][INFO] Next stop: "/packages"
+[18:19:35][liftinstall::frontend::js][INFO] Installer kind: regular
+[18:19:35][liftinstall::frontend::js][INFO] Installing desktop shortcut: true
+[18:19:35][liftinstall::frontend::js][INFO] Making streaming HTTP request to /api/start-install
+[18:19:35][liftinstall::frontend::rest::services::install][INFO] Found installDesktopShortcut "true"
+[18:19:35][liftinstall::installer][INFO] Framework: Installing ["yuzu"] to "C:\\Users\\USER\\AppData\\Local\\yuzu"
+[18:19:35][liftinstall::installer][INFO] Dependency tree:
+InstallTask
+├── Pre EnsureOnlyInstanceTask
+├── Pre VerifyInstallDirTask (with clean-install = true)
+├── Pre InstallPackageTask (for "yuzu")
+│   ├── Pre DownloadPackageTask (for "yuzu")
+│   │   └── Pre CheckAuthorizationTask (for "yuzu")
+│   │       └── Pre ResolvePackageTask (for "yuzu")
+│   ├── Pre UninstallPackageTask (for "yuzu", optional = true)
+│   │   ├── Pre UninstallShortcutsTask (for "yuzu", optional = true)
+│   │   └── Post SaveDatabaseTask
+│   ├── Post InstallShortcutsTask (for "yuzu")
+│   ├── Post InstallDesktopShortcutTask (for "yuzu", should_run = true)
+│   └── Post SaveDatabaseTask
+├── Pre SaveExecutableTask
+├── Pre InstallGlobalShortcutsTask
+│   └── Post SaveDatabaseTask
+└── Post LaunchOnExitTask
+[18:19:35][liftinstall::frontend::rest::services::install][ERROR] Install error occurred: "Install destination (\"C:\\\\Users\\\\USER\\\\AppData\\\\Local\\\\yuzu\") is not empty."
+[18:19:38][liftinstall::installer][INFO] Shutting down installer framework...
