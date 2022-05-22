@@ -1,6 +1,6 @@
 <?php
-
-include('security.php');
+session_start();
+include("security.php");
 
 
 // Registister PHP CODE
@@ -15,13 +15,37 @@ if(isset($_POST['sub'])){
             $pdf_type=$_FILES['pdf']['type'];
             $pdf_size=$_FILES['pdf']['size'];
             $pdf_tem_loc=$_FILES['pdf']['tmp_name'];
-            $pdf_store="lfupload/".$pdf;
+
+            $file_name_complete =  $pdf; 
+            // Extract file extension 
+            
+            $extension = pathinfo($file_name_complete, PATHINFO_EXTENSION); 
+            // Extract file name without extension 
+            $file_name = pathinfo($file_name_complete, PATHINFO_FILENAME); 
+            // Temp file location
+             $file_temp_location =  $pdf_tem_loc; 
+             // Save an original file name variable to track while renaming if file already exists
+              $file_name_original = $file_name; 
+              // Increment file name by 1 
+              $num = 1; 
+              /** * Check if the same file name already exists in the upload folder, * append increment number to the original filename **/ 
+              while (file_exists("lfupload/" . $file_name . "." . $extension))
+               {
+                    $file_name = (string) $file_name_original ."(" .$num.")"; 
+                    $file_name_complete = $file_name . "." . $extension; $num++; 
+                } 
+                // Upload file in upload folder 
+                $file_target_location = "lfupload/" . $file_name_complete; 
+                move_uploaded_file($file_temp_location, $file_target_location);
+           
+            // $pdf_store = "lfupload/" . $pdf;
  
-            move_uploaded_file($pdf_tem_loc,$pdf_store);
+ 
+            //move_uploaded_file($pdf_tem_loc,$pdf_store);
        
             $docxmeta = new docxmetadata();
  
-            $path_info = pathinfo("lfupload/".$pdf);
+            $path_info = pathinfo("lfupload/".$file_name_complete);
             $atime = $path_info['extension'];
  
             $datec = $docxmeta->getDateModified();
@@ -32,8 +56,8 @@ if(isset($_POST['sub'])){
             //$datec = $docxmeta->getDateCreated();
             //$date = new DateTime($datec);
             //$ctime = ('F j, Y, g:i');
-            date_default_timezone_set("Asia/Manila");
-            $ctime=date("F j, Y, g:i");
+             date_default_timezone_set("Asia/Manila");
+            $ctime=date("F j, Y, H:i:s");
             
  
  
@@ -41,11 +65,28 @@ if(isset($_POST['sub'])){
             //$return = $docObj->convertToText();
             //$content = $return;
  
-            $query= "INSERT INTO  filemanage (`file`,`access`,`modified`,`created`,`contents`) VALUES('$pdf','$atime','$mtime','$ctime','sd')";
+            $query= "INSERT INTO  filemanage (`file`,`access`,`modified`,`created`,`contents`) VALUES('$file_name_complete','$atime','$mtime','$ctime','sd')";
             $query_run =mysqli_query($connection,$query);
  
             if($query_run)
-            {
+            {  $username=$_SESSION['Uname'];
+                $query1="SELECT * FROM users WHERE username='$username'";
+                $query_run1=mysqli_query($connection,$query1);
+                
+               foreach($query_run1 as $row)
+               {
+               
+               
+           
+              
+           }
+           $ava=$row['avatar'];
+                  date_default_timezone_set("Asia/Manila");
+                 $now=date("F j, Y, H:i:s");
+                $username=$_SESSION['Uname'];
+                $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$file_name_complete','Added','$now')";
+                mysqli_query($connection,$sql2);
+           
                 header('Location:add.php?Status=add');  
             }
             else
@@ -82,18 +123,18 @@ if(isset($_POST['submits'])){
             mysqli_stmt_bind_param($stmt,"s",$username);
             mysqli_stmt_execute($stmt);
             $result= mysqli_stmt_get_result($stmt);
-        if($row = mysqli_fetch_assoc($result)){
-        if($pass == $row['pass']){
+         if($row = mysqli_fetch_assoc($result)){
+         if($pass == $row['pass']){
            
                 $position = $row['role'];
                 
-                if ($position=='Staff')
+                if ($position=='Staff'||$position=='Finance')
                 {
                     session_start();
                      $_SESSION['idUser']=$rows['idUsers'];
                      $_SESSION['Uname']=$row['username'];
-                     date_default_timezone_set("Asia/Manila");
-                     $now=date("F j, Y, g:i");
+                      date_default_timezone_set("Asia/Manila");
+                     $now=date("F j, Y, H:i:s");
                       
                      $sql2= "INSERT INTO history (Uname,act,Dt) VALUES('$username','$now','Login')";
                      mysqli_query($connection,$sql2);
@@ -113,8 +154,8 @@ if(isset($_POST['submits'])){
                     session_start();
                 
                      $_SESSION['Uname']=$row['username'];
-                     date_default_timezone_set("Asia/Manila");
-                     $now=date("F j, Y, g:i");
+                      date_default_timezone_set("Asia/Manila");
+                     $now=date("F j, Y, H:i:s");
                        
                      $sql1= "INSERT INTO history (Uname,act,Dt) VALUES('$username','$now','Login')";
                      mysqli_query($connection,$sql1);
@@ -139,7 +180,7 @@ if(isset($_POST['submits'])){
             else{
                 header("Location:../../index.php?error=WrongPassword");
                
-        exit();
+         exit();
             }
         }
         else{
@@ -411,9 +452,32 @@ if(isset($_POST['update_account'])){
                     if(isset($_GET['unarchive'])){
                         $id=$_GET['unarchive'];
                     
-                    $sql = " UPDATE filemanage set Status= 'Display' where id='$id'";
+                    $sql = " UPDATE filemanage set Status= 'Display', date_arc='0' where id='$id'";
                     $result = $connection->query($sql);
                     if($result){
+                        $username=$_SESSION['Uname'];
+                        $query1="SELECT * FROM users WHERE username='$username'";
+                        $query_run1=mysqli_query($connection,$query1);
+                        
+                       foreach($query_run1 as $row)
+                       {
+                       
+                       
+                    
+                      
+                    }
+                    $ava=$row['avatar'];
+                          date_default_timezone_set("Asia/Manila");
+                         $now=date("F j, Y, H:i:s");
+                        $username=$_SESSION['Uname'];
+                        $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+                    $query_run3 = mysqli_query($connection, $query3);
+                    foreach($query_run3 as $row)
+                    {
+                    $filename = $row['file'];
+                    }
+                        $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Unarchive','$now')";
+                        mysqli_query($connection,$sql2);
                         header('Location:archive.php?unarchive=docu');
                     }
                     }
@@ -423,48 +487,67 @@ if(isset($_POST['update_account'])){
 
             if(isset($_GET['archive'])){
                 $id=$_GET['archive'];
-            
-            $sql = " UPDATE filemanage set Status= 'archive' where id='$id'";
+                  date_default_timezone_set("Asia/Manila");
+                 $now=date("F j, Y, H:i:s");
+            $sql = " UPDATE filemanage set Status= 'archive', date_arc='$now' where id='$id'";
             $result = $connection->query($sql);
             if($result){
+
+                $username=$_SESSION['Uname'];
+                $query1="SELECT * FROM users WHERE username='$username'";
+                $query_run1=mysqli_query($connection,$query1);
+                
+               foreach($query_run1 as $row)
+               {
+               
+               
+           
+              
+           }
+           $ava=$row['avatar'];
+                  date_default_timezone_set("Asia/Manila");
+                 $now=date("F j, Y, H:i:s");
+                $username=$_SESSION['Uname'];
+                $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+$query_run3 = mysqli_query($connection, $query3);
+foreach($query_run3 as $row)
+{
+    $filename = $row['file'];
+}
+                $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Archive','$now')";
+                mysqli_query($connection,$sql2);
                 header('Location:all.php?archive=docu');
             }
             }
 
 
-            if (isset($_GET['dl'])) {
-                $id = $_GET['dl'];
-            
-            
-                $sql1 = "SELECT * FROM filemanage WHERE id='$id'";
-                $result = mysqli_query($connection, $sql1);
-            
-                $file = mysqli_fetch_assoc($result);
-                $filepath = 'lfupload/' . $file['file'];
-            
-                if (file_exists($filepath)) {
-
-                    
-                    header('Content-Description: File Transfer');
-                    header('Content-Type: application/octet-stream');
-                    header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
-                    header('Expires: 0');
-                    header('Cache-Control: must-revalidate');
-                    header('Pragma: public');
-                    header('Content-Length: ' . filesize('lfupload/' . $file['file']));
-                    flush(); 
-                    readfile('lfupload/' . $file['file']);
-            
-              
-                    exit;
-                }
-            
-            }
 
 
             if (isset($_GET['delete'])) {
                 $id = $_GET['delete'];
-
+                $username=$_SESSION['Uname'];
+                $query1="SELECT * FROM users WHERE username='$username'";
+                $query_run1=mysqli_query($connection,$query1);
+                
+               foreach($query_run1 as $row)
+               {
+               
+               
+            
+              
+            }
+            $ava=$row['avatar'];
+                  date_default_timezone_set("Asia/Manila");
+                 $now=date("F j, Y, H:i:s");
+                $username=$_SESSION['Uname'];
+                $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+            $query_run3 = mysqli_query($connection, $query3);
+            foreach($query_run3 as $row)
+            {
+            $filename = $row['file'];
+            }
+                $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Deleted','$now')";
+                mysqli_query($connection,$sql2);
 
                 $sql1 = "SELECT * FROM filemanage WHERE id='$id'";
                 $result = mysqli_query($connection, $sql1);
@@ -477,12 +560,237 @@ if(isset($_POST['update_account'])){
                 $query = "DELETE  FROM filemanage WHERE id ='$id' ";  
                 $query_run = mysqli_query($connection,$query);  
 if($query_run){
+ 
     header('Location:all.php?delete=docu');
 }
             
                     
              
            }  
+
+
+           if (isset($_GET['delete1'])) {
+            $id = $_GET['delete1'];
+            $username=$_SESSION['Uname'];
+            $query1="SELECT * FROM users WHERE username='$username'";
+            $query_run1=mysqli_query($connection,$query1);
+            
+           foreach($query_run1 as $row)
+           {
+           
+           
+        
+          
+        }
+        $ava=$row['avatar'];
+              date_default_timezone_set("Asia/Manila");
+             $now=date("F j, Y, H:i:s");
+            $username=$_SESSION['Uname'];
+            $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+        $query_run3 = mysqli_query($connection, $query3);
+        foreach($query_run3 as $row)
+        {
+        $filename = $row['file'];
+        }
+            $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Deleted','$now')";
+            mysqli_query($connection,$sql2);
+
+            $sql1 = "SELECT * FROM filemanage WHERE id='$id'";
+            $result = mysqli_query($connection, $sql1);
+        
+            $file = mysqli_fetch_assoc($result);
+            $filepath = $file['file'];
+            unlink('lfupload/' .  $filepath);
+
+
+            $query = "DELETE  FROM filemanage WHERE id ='$id' ";  
+            $query_run = mysqli_query($connection,$query);  
+if($query_run){
+header('Location:type-micro.php?delete=docu');
+}
+        
+                
+         
+       }  
+
+       if (isset($_GET['delete2'])) {
+        $id = $_GET['delete2'];
+        $username=$_SESSION['Uname'];
+        $query1="SELECT * FROM users WHERE username='$username'";
+        $query_run1=mysqli_query($connection,$query1);
+        
+       foreach($query_run1 as $row)
+       {
+       
+       
+    
+      
+    }
+    $ava=$row['avatar'];
+          date_default_timezone_set("Asia/Manila");
+         $now=date("F j, Y, H:i:s");
+        $username=$_SESSION['Uname'];
+        $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+    $query_run3 = mysqli_query($connection, $query3);
+    foreach($query_run3 as $row)
+    {
+    $filename = $row['file'];
+    }
+        $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Deleted','$now')";
+        mysqli_query($connection,$sql2);
+
+        $sql1 = "SELECT * FROM filemanage WHERE id='$id'";
+        $result = mysqli_query($connection, $sql1);
+    
+        $file = mysqli_fetch_assoc($result);
+        $filepath = $file['file'];
+        unlink('lfupload/' .  $filepath);
+
+
+        $query = "DELETE  FROM filemanage WHERE id ='$id' ";  
+        $query_run = mysqli_query($connection,$query);  
+if($query_run){
+header('Location:type-pdf.php?delete=docu');
+}
+    
+            
+     
+   }  
+
+   if (isset($_GET['delete3'])) {
+    $id = $_GET['delete3'];
+    $username=$_SESSION['Uname'];
+    $query1="SELECT * FROM users WHERE username='$username'";
+    $query_run1=mysqli_query($connection,$query1);
+    
+   foreach($query_run1 as $row)
+   {
+   
+   
+
+  
+}
+$ava=$row['avatar'];
+      date_default_timezone_set("Asia/Manila");
+     $now=date("F j, Y, H:i:s");
+    $username=$_SESSION['Uname'];
+    $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+$query_run3 = mysqli_query($connection, $query3);
+foreach($query_run3 as $row)
+{
+$filename = $row['file'];
+}
+    $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Deleted','$now')";
+    mysqli_query($connection,$sql2);
+
+    $sql1 = "SELECT * FROM filemanage WHERE id='$id'";
+    $result = mysqli_query($connection, $sql1);
+
+    $file = mysqli_fetch_assoc($result);
+    $filepath = $file['file'];
+    unlink('lfupload/' .  $filepath);
+
+
+    $query = "DELETE  FROM filemanage WHERE id ='$id' ";  
+    $query_run = mysqli_query($connection,$query);  
+if($query_run){
+header('Location:type-other.php?delete=docu');
+}
+
+        
+ 
+}
+
+if (isset($_GET['delete4'])) {
+    $id = $_GET['delete4'];
+    $username=$_SESSION['Uname'];
+    $query1="SELECT * FROM users WHERE username='$username'";
+    $query_run1=mysqli_query($connection,$query1);
+    
+   foreach($query_run1 as $row)
+   {
+   
+   
+
+  
+}
+$ava=$row['avatar'];
+      date_default_timezone_set("Asia/Manila");
+     $now=date("F j, Y, H:i:s");
+    $username=$_SESSION['Uname'];
+    $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+$query_run3 = mysqli_query($connection, $query3);
+foreach($query_run3 as $row)
+{
+$filename = $row['file'];
+}
+    $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Deleted','$now')";
+    mysqli_query($connection,$sql2);
+
+    $sql1 = "SELECT * FROM filemanage WHERE id='$id'";
+    $result = mysqli_query($connection, $sql1);
+
+    $file = mysqli_fetch_assoc($result);
+    $filepath = $file['file'];
+    unlink('lfupload/' .  $filepath);
+
+
+    $query = "DELETE  FROM filemanage WHERE id ='$id' ";  
+    $query_run = mysqli_query($connection,$query);  
+if($query_run){
+header('Location:add.php?delete=docu');
+}
+
+        
+ 
+}  
+
+if (isset($_GET['delete5'])) {
+    $id = $_GET['delete5'];
+    $username=$_SESSION['Uname'];
+    $query1="SELECT * FROM users WHERE username='$username'";
+    $query_run1=mysqli_query($connection,$query1);
+    
+   foreach($query_run1 as $row)
+   {
+   
+   
+
+  
+}
+$ava=$row['avatar'];
+      date_default_timezone_set("Asia/Manila");
+     $now=date("F j, Y, H:i:s");
+    $username=$_SESSION['Uname'];
+    $query3 = "SELECT * FROM filemanage WHERE id='$id' ";
+$query_run3 = mysqli_query($connection, $query3);
+foreach($query_run3 as $row)
+{
+$filename = $row['file'];
+}
+    $sql2= "INSERT INTO activity (avatar,name,filename,Action,ddate) VALUES('$ava','$username','$filename','Deleted','$now')";
+    mysqli_query($connection,$sql2);
+
+    $sql1 = "SELECT * FROM filemanage WHERE id='$id'";
+    $result = mysqli_query($connection, $sql1);
+
+    $file = mysqli_fetch_assoc($result);
+    $filepath = $file['file'];
+    unlink('lfupload/' .  $filepath);
+
+
+    $query = "DELETE  FROM filemanage WHERE id ='$id' ";  
+    $query_run = mysqli_query($connection,$query);  
+if($query_run){
+header('Location:archive.php?delete=docu');
+}
+
+        
+ 
+}  
+
+
+       
            ?>  
           
 

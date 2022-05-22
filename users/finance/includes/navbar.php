@@ -35,7 +35,22 @@
             <div class="sidebar-heading">
                Document Management 
             </div>
+  
+              <!-- <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#activity1">
+            <i class="fa fa-inbox" style="color:white" aria-hidden="true"></i>
+            <span style="color:white; font-weight:bold">Inbox</span>  <span class="count-numbers" style="color:yellow; font-weight:bold">  <?php 
+    // require 'security.php';
 
+    // $sr= $_SESSION['Uname'];
+     //$sql="SELECT * FROM inbox where To1='$sr' "; 
+     //$query_run=mysqli_query($connection,$sql);
+      
+    // $row=mysqli_num_rows($query_run);
+
+     //echo '+'.''.$row;
+   ?></span></a>
+        </li>-->
            <!-- Nav Item - Pages Collapse Menu -->
            <li class="nav-item active">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2"
@@ -58,17 +73,34 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Modify Documents</h6>
-                        <a class="collapse-item" href="add.php"><strong>Add a Document</strong></a>
-                        <a class="collapse-item" href="archive.php"><strong>Archive Documents</strong></a>
+                        <h6 class="collapse-header">Documents</h6>
+                     
+						  <a class="collapse-item" href="add.php"><strong>My Document<span class="count-numbers" style="color:red; font-weight:bold">  <?php 
+     require 'security.php';
+
+     $sr= $_SESSION['Uname'];
+     $sql="SELECT * FROM filemanage where addby='$sr' "; 
+     $query_run=mysqli_query($connection,$sql);
+      
+     $row=mysqli_num_rows($query_run);
+if($row=='0'){
+  echo $row;
+}
+else{
+  echo '+'.''.$row;
+}
+   
+   ?></span></strong></a>
+                       
                     </div>
                 </div>
               
             </li>
+          
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-               <!-- Divider -->
-               <hr class="sidebar-divider">
-
+      
              <!-- Heading -->
         <div class="sidebar-heading">
           Detailed logs
@@ -234,50 +266,87 @@
 
 
     <!-- Modal -->
-<div class="modal fade" id="History" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="activity1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> <i class="fa fa-address-book" aria-hidden="true"></i> History</h5>
+        <h5 class="modal-title" id="exampleModalLabel"> <i class="fa fa-address-book" aria-hidden="true"></i> Inbox</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
       </div>
-      <div class="modal-body">
-      <table class="table table-striped table-dark">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <div class="modal-body" style="overflow: auto">
+      <?php
+$sr= $_SESSION['Uname'];
+echo ''.$sr.'';
+$query = "SELECT * FROM inbox where To1='$sr' ORDER BY in_id DESC LIMIT 10";
+$query_run = mysqli_query($connection, $query);
+
+?>
+<table class="table table-dark">
+ <thead>
+    <tr class="text-center">
+        <th >Subject</th>
+        <th >File</th>
+        <th>From</th>
+        <th>Date/Time</th>
+        <th>Remarks</th>
+        <th>From</th>
     </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+ </thead>
+ <tbody class="text-center">
+
+ <?php
+ if(mysqli_num_rows($query_run) > 0)
+
+ {
+  while ($row = mysqli_fetch_assoc($query_run))
+   {
+   
+    ?> <td> <?php
+      echo ($row['To1']); 
+     
+     ?>  
+    
+    
+    </td>
+        <td> <?php echo $row['Subject']; ?> </td>
+        <td> <?php echo  '12313' ?>
+        </td>
+       
+        <td> <?php echo  $row['DDate']; ?>
+        </td>
+        <td> <?php echo  $row['Remarks']; ?>
+        </td>
+       
+        <td> <?php echo  $row['From1']; ?>
+        </td>
+       
+       
+       
+    
+       
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
+
+    
+     <?php
+  }
+
+
+ } 
+ else{
+  echo "NO RECORD FOUND";
+ }
+ ?>
+ </tbody>
 </table>
-      </div>
+
+    
+
+</div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">View All</button>
+        <a href="history.php"><button type="button" class="btn btn-primary">View All</button></a>
       </div>
     </div>
   </div>
@@ -286,7 +355,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="activity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content ">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"> <i class="fa fa-history" aria-hidden="true"></i> Activity</h5>
@@ -294,42 +363,173 @@
                         <span aria-hidden="true">×</span>
                     </button>
       </div>
-      <div class="modal-body">
-      <table class="table table-striped">
-  <thead>
+      <div class="modal-body"  style="overflow: auto">
+      <?php
+
+$query = "SELECT * FROM activity ORDER BY actid DESC LIMIT 5";
+$query_run = mysqli_query($connection, $query);
+
+?>
+<table style="font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  font-size:auto;
+  width: 100%;">
+
+ <tbody>
+
+ <?php
+ if(mysqli_num_rows($query_run) > 0)
+
+ {
+  while ($row = mysqli_fetch_assoc($query_run))
+   {
+
+    if(function_exists("facebook_time_ago") ===FALSE){
+     function facebook_time_ago($timestamp)  
+     {      
+          $time_ago = strtotime($timestamp);  
+          date_default_timezone_set("Asia/Manila");
+          $current_time = time();  
+          $time_difference = $current_time - $time_ago;  
+          $seconds = $time_difference;  
+          $minutes      = round($seconds / 60 );           // value 60 is seconds  
+          $hours           = round($seconds / 3600);           //value 3600 is 60 minutes * 60 sec  
+          $days          = round($seconds / 86400);          //86400 = 24 * 60 * 60;  
+          $weeks          = round($seconds / 604800);          // 7*24*60*60;  
+          $months          = round($seconds / 2629440);     //((365+365+365+365+366)/5/12)*24*60*60  
+          $years          = round($seconds / 31553280);     //(365+365+365+365+366)/5 * 24 * 60 * 60  
+          if($seconds <= 60)  
+          {  
+         return "Just Now";  
+       }  
+          else if($minutes <=60)  
+          {  
+         if($minutes==1)  
+               {  
+           return "one minute ago";  
+         }  
+         else  
+               {  
+           return "$minutes minutes ago";  
+         }  
+       }  
+          else if($hours <=24)  
+          {  
+         if($hours==1)  
+               {  
+           return "an hour ago";  
+         }  
+               else  
+               {  
+           return "$hours hrs ago";  
+         }  
+       }  
+          else if($days <= 7)  
+          {  
+         if($days==1)  
+               {  
+           return "yesterday";  
+         }  
+               else  
+               {  
+           return "$days days ago";  
+         }  
+       }  
+          else if($weeks <= 4.3) //4.3 == 52/12  
+          {  
+         if($weeks==1)  
+               {  
+           return "a week ago";  
+         }  
+               else  
+               {  
+           return "$weeks weeks ago";  
+         }  
+       }  
+           else if($months <=12)  
+          {  
+         if($months==1)  
+               {  
+           return "a month ago";  
+         }  
+               else  
+               {  
+           return "$months months ago";  
+         }  
+       }  
+          else  
+          {  
+         if($years==1)  
+               {  
+           return "one year ago";  
+         }  
+               else  
+               {  
+           return "$years years ago";  
+         }  
+       }  
+     
+      }}
+  
+?>
+ 
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+
+    
+    <td class="mr-3" >  <?php echo '<img src="Avatar/'.$row['avatar'].'" width="65px;" height="65px"; style="border-radius: 12%;"> <br><br>' ?>  </td>  
+        <td  class="text-dark ">  <?php 
+        if($row['Action']=="Deleted")
+        {
+  echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:red;font-weight:bold">'.$row['Action'].'</label>   <label style=color:black;>   '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Added"){
+  echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:green;font-weight:bold">'.$row['Action'].'</label>   <label style=color:black;>   '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Download"){
+   echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:limegreen; font-weight:bold">'.$row['Action'].'</label>    <label style=color:black;>  '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Archive"){
+          echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:orange;font-weight:bold">'.$row['Action'].'</label>  <label style=color:black;>    '.$row['filename'].' </label>  ';
+               }
+        else if($row['Action']=="Unarchive"){
+   echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:orange;font-weight:bold">'.$row['Action'].'</label>  <label style=color:black;>    '.$row['filename'].' </label>  ';
+          }
+          else if($row['Action']=="Deleted From Archive")
+          {
+    echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:red;font-weight:bold">'.$row['Action'].'</label>   <p style=color:black; >   '.$row['filename'].' </p>  ';
+          }
+        else{
+
+        }
+        date_default_timezone_set("Asia/Manila");
+  echo '<p style="font-size:14px"> <i class="fa fa-clock-o"></i>'.' '.facebook_time_ago($row['ddate']).'</p></div>'; 
+
+ ?>  
+
+
+
+</td>
+  
+       
     </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
+
+    
+     <?php
+  }
+
+
+ } 
+ else{
+  echo "NO RECORD FOUND";
+ }
+ ?>
+ </tbody>
 </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">View All</button>
+      <a href="activities.php"><button type="button" class="btn btn-primary">View All</button></a>
       </div>
     </div>
   </div>
 </div>
+

@@ -52,19 +52,17 @@ function formatBytes($bytes, $precision = 2) {
     
 <?php
 
-$query = "SELECT * FROM filemanage WHERE access NOT IN (('docx'),('xlsx'),('doc'),('pdf'),('pptx'),('ppt')) ORDER BY id"; 
+$query = "SELECT * FROM filemanage WHERE status='Display' && access NOT IN (('docx'),('xlsx'),('doc'),('pdf'),('pptx'),('ppt')) ORDER BY id"; 
 $query_run = mysqli_query($connection, $query);
 
 ?>
-<table  id="DataTableYep3" class = "table table-boardered" width="100%" cellspacing="0" style = "color:black">
+<table  id="DataTableYep1" class = "table table-boardered" width="100%" cellspacing="0" style = "color:black">
  <thead>
     <tr>
-        <th>ID </th>
         <th>File Name</th>
         <th>File Type</th>
         <th>File Size</th>
         <th>Download</th>
-        <th>Archive</th>
         <th>Delete</th>
     </tr>
  </thead>
@@ -90,9 +88,13 @@ $docxfile = "lfupload/$filename";
 ?>  
 
 <tr>
-<td> <?php echo $row['id']; ?> </td>
+    
 <td> <?php echo $row['file']; ?> </td>
+<td> <?php
+$path_info = pathinfo($docxfile);
+echo $path_info['extension'];
 
+?> </td>
 <td>
 <?php
 
@@ -103,27 +105,19 @@ $total = formatBytes    ($filesize);
 echo $total;
 ?>
 </td>
-<td> <?php
-$path_info = pathinfo($docxfile);
-echo $path_info['extension'];
 
-?> </td>
 
 
 <td>
-        <form action="#" method= "post">
+        <form action="Dl.php" method= "post">
         <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
         <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
         </form>
         </td>
+       
 
-        <td>
-                <form action="#" method="post">
-                  <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                  <button type="submit" name="adddelete_btn" class="btn btn-warning"> Archive</button>
-                </form>
-        </td>
-        <td><a href="code.php?delete=<?php echo $row['id'];?>" class='btn btn-danger arc-btn1'><i   class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
+        <td><a href="code.php?delete3=<?php echo $row['id'];?>" class='btn btn-danger arc-btn1'><i   class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
+       
        
     </tr>
 

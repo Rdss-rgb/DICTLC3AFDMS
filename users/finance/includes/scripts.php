@@ -16,17 +16,21 @@
 
     <!-- Page level custom scripts -->
  
-    
+    <script src = "https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src = "https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
     <script src = "https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap4.min.js"></script>
 
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
     <!-- Check main.js for sendmail function -->
-   
-<script src ="https://cdn.datatables.net/plug-ins/1.11.5/dataRender/ellipsis.js"></script>
 
-<script src ="https://cdn.datatables.net/plug-ins/1.11.5/api/processing().js"></script>
+   
+    <script src = "https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src = "https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script>
 
@@ -57,13 +61,49 @@ $(document).ready(function() {
 
 </script>
 
+
+<script>
+
+$(document).ready(function() {
+    $('#DataTableExp11').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+           'print'
+        ],
+        order: [[ 0, "desc"]],
+
+        "columnDefs": [
+          {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": true
+            },
+          
+        ]
+    } );
+} );
+
+</script>
+
 <script>
 
 $(document).ready(function() {
     $('#DataTableExp').DataTable( {
-        order: [[ 0, "desc" ]]
+        dom: 'Bfrtip',
+        buttons: [
+           'print'
+        ],
+        order: [[ 0, "desc" ]],
+        "columnDefs": [
+          {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": true
+            },
+        ]
     } );
 } );
+
 
 </script>
 
@@ -88,6 +128,23 @@ $(document).ready(function() {
 } );
 </script>
 
+<script>
+    $(document).ready(function() {
+    $('#DataTableYep1').DataTable( {
+        order: [[ 0, "desc" ]],
+        scrollY:        620,
+        processing: true,
+        scrollX:        true,
+        paging:         false,
+        scrollCollapse: true,
+        fixedColumns:   true,
+        select:         true,
+        
+    
+       
+    } );
+} );
+</script>
 
 
 <script>
@@ -222,36 +279,6 @@ $(document).ready(function() {
 
 
 
-<!-- Sweet Alerts -->
-
-<?php
-if(isset($_SESSION['status']) && $_SESSION['status'] !='')
-{
-   ?>
-<script>
-      Swal.fire({
-      title: "<?php echo $_SESSION ['status']; ?>",
-      icon: "<?php echo $_SESSION ['status_code']; ?>",
-      button: "OK Done!",
-      });
-
-</script>
-   <?php
-unset ($_SESSION['status']);
-}
-?>
-
-</script>
-
-<!-- Google Pie Charts -->
-
-<?php
-
-include('database/dbconfig.php');
-?>
-
-
-
 
 
   <script>
@@ -336,34 +363,72 @@ include('database/dbconfig.php');
   }
 }
   </script>
-  <script>
-let labels4 = ['DOCX', 'XLXS', 'PPTX', 'PDF', 'Others'];
-<?php
+<script>
+	
+  $(document).ready(function(){
   
-            $query="SELECT * FROM filemanage";
-            $res=mysqli_query($connection,$query);
-          
-           ?>
-         data4 = ['<?php echo "1";?>',<?php echo "2";?>,<?php echo "3";?>,<?php echo "4";?>,<?php echo "5";?>];   
-           <?php   
+    
+  
+    makechart();
+    function makechart()
+    {
+      $.ajax({
+        url:"data.php",
+        method:"POST",
+        data:{action:'fetch'},
+        dataType:"JSON",
+        success:function(data)
+        {
+          var FileType = [];
+          var total = [];
+          var color = [];
+  
+          for(var count = 0; count < data.length; count++)
+          {
+            FileType.push(data[count].FileType);
+            total.push(data[count].total);
+            color.push(data[count].color);
+          }
+  
+          var chart_data = {
             
-           ?> 
-var colors4 = ['#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#c5c4c4'];
-
-var myChart4 = document.getElementById("myChart4").getContext('2d');
-
-var chart4 = new Chart(myChart4, {
-    type: 'pie',
-    data: {
-        labels: labels4,
-        datasets: [ {
-            data: data4,
-            backgroundColor: colors4
-        }]
-    },
-    options: {
-      plugins: {  
+            labels:FileType,
+            datasets:[
+              {
+                label:'File Type',
+                backgroundColor:color,
+                color:'#fff',
+                data:total
+              }
+            ]
+          };
+  
+          var options = {
+            responsive:true,
+            scales:{
+              yAxes:[{
+                ticks:{
+                  min:0
+                }
+              }]
+            }
+          };
+  
+     
+  
+          var group_chart2 = $('#doughnut_chart');
+  
+          var graph2 = new Chart(group_chart2, {
+            type:"doughnut",
+            
+            data:chart_data
+          });
+  
+         
         }
+      })
     }
-});
-</script>
+  
+  });
+  
+  </script> 

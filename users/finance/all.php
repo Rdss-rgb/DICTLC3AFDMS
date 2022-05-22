@@ -18,7 +18,6 @@ include('ry.php');
 ?>
 
 
-
 <div class="container-fluid">
     <div class ="card-shadow-mb-4">
     <div class ="card-header-py-3">
@@ -31,7 +30,7 @@ include('ry.php');
     
 <?php
 
-$query = "SELECT * FROM filemanage ORDER BY id DESC";
+$query = "SELECT * FROM filemanage where status='Display' ORDER BY id DESC";
 $query_run = mysqli_query($connection, $query);
 
 ?>
@@ -42,8 +41,6 @@ $query_run = mysqli_query($connection, $query);
         <th>File Name</th>
         <th>File Type</th>
         <th>Download</th>
-        <th>Archive</th>
-        <th>Delete</th>
     </tr>
  </thead>
  <tbody>
@@ -61,7 +58,7 @@ $query_run = mysqli_query($connection, $query);
                         ?>
 <?php
 $docxmeta = new docxmetadata();
-$docxfile = "lfupload/$filename"; 
+$docxfile = "../admin/lfupload/$filename"; 
 
 ?>  
     <tr>
@@ -74,25 +71,13 @@ echo $path_info['extension'];
 ?> </td>
        
         <td>
-        <form action="meta.php" method= "post">
+        <form action="Dl.php" method= "post">
         <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
-        <button type ="submit" name="edit_btn" class = "btn btn-success"><i class="fa fa-download" aria-hidden="true"></i> Download</button>
+        <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
         </form>
         </td>
 
-        <td>
-        <form action="#" method= "post">
-        <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
-        <button type ="submit" name="edit_btn" class = "btn btn-warning"><i class="fa fa-archive" aria-hidden="true"></i> Archive</button>
-        </form>
-        </td>
-
-        <td>
-                <form action="#" method="post">
-                  <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                  <button type="submit" name="mlistdelete_btn" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
-                </form>
-        </td>
+    
        
     </tr>
 
@@ -106,6 +91,51 @@ echo $path_info['extension'];
   echo "NO RECORD FOUND";
  }
  ?>
+    
+    <script>
+        $('.arc-btn').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Archive Document',
+                text: "Are you sure you ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
+
+
+
+<script>
+        $('.arc-btn1').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Delete Document',
+                text: "Are you sure you delete this Document ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
+
  </tbody>
 </table>
 

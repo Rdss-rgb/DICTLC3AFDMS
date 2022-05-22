@@ -38,7 +38,7 @@ include('includes/navbar.php');
                         ?>
                         <?php
     
-echo "<iframe src=\"lfupload/$filename\" width=\"100%\" style=\"height:500%\"></iframe>";
+echo "<iframe src=\"../admin/lfupload/$filename\" width=\"100%\" style=\"height:500%\"></iframe>";
 
 ?>
 

@@ -84,7 +84,7 @@ function FileSizeConvert($bytes)
     
 <?php
 
-$query = "SELECT * FROM filemanage WHERE access IN (('docx'),('xlsx'),('doc'),('pptx')) ORDER BY id"; 
+$query = "SELECT * FROM filemanage WHERE status='Display' && access IN (('docx'),('xlsx'),('doc'),('pptx')) ORDER BY id"; 
 $query_run = mysqli_query($connection, $query);
 
 ?>
@@ -155,14 +155,14 @@ echo $total;
         <button type ="submit" name="edit_btn" class = "btn btn-success">View</button>
         </form>
         </td>
-<td>
-        <form action="#" method= "post">
+        <td>
+        <form action="Dl.php" method= "post">
         <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
         <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
         </form>
         </td>
 
-        <td><a href="code.php?delete=<?php echo $row['id'];?>" class='btn btn-danger arc-btn1'><i   class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
+        <td><a href="code.php?delete1=<?php echo $row['id'];?>" class='btn btn-danger arc-btn1'><i   class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
        
     </tr>
 

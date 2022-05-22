@@ -17,13 +17,6 @@ include('includes/navbar.php');
 include('ry.php');
 ?>
 
-<script src="jquery-3.3.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-  <script
-  src="https://code.jquery.com/jquery-3.5.1.min.js"
-  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-  crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <div class="container-fluid">
     <div class ="card-shadow-mb-4">
@@ -79,8 +72,12 @@ echo $path_info['extension'];
 
 ?> </td>
        
-        <td><a href="code.php?dl=<?php echo $row['id'];?>" class='btn btn-success'><i   class="fa fa-download" aria-hidden="true"></i> Download</a></td>
-
+        <td>
+        <form action="Dl.php" method= "post">
+        <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
+        <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
+        </form>
+        </td>
 
         <td><a href="code.php?archive=<?php echo $row['id'];?>" class='btn btn-warning arc-btn'><i   class="fa fa-archive" aria-hidden="true"></i> Archive</a></td>
     

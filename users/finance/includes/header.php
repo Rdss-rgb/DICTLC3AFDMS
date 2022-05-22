@@ -57,6 +57,7 @@
   <!--officeToHtml-->
   <script src="./include/officeToHtml/officeToHtml.js"></script>
   <link rel="stylesheet" href="./include/officeToHtml/officeToHtml.css">
+  
 
 <script type="text/javascript">
 window.addEventListener('load',function(){
@@ -118,13 +119,55 @@ Toast.fire({
           
             }
             else if(strpos($fullUrl,"?errorr=add")==true){ ?>
-              <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>swal({
+              <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
       title: "Error",
       text: "Document cannot be Added!",
       icon: "error",
       button: "Ok",
     });</script>
+    </script>
+    
+    <?php
+    
+      }
+      else if(strpos($fullUrl,"?delete=docu")==true){ ?>
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
+title: "Deleted",
+text: "Document Successfully Deleted!",
+icon: "success",
+confirmButtonColor: "#002742",
+confirmButtonText: "Ok",
+});</script>
+ </script>
+    
+    <?php
+    
+      }
+      else if(strpos($fullUrl,"?archive=docu")==true){ ?>
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
+title: "Archived",
+text: "Document has been Archived !",
+icon: "success",
+confirmButtonColor: "#002742",
+confirmButtonText: "Ok",
+}); </script>
+ </script>
+    
+    <?php
+    
+      }
+      else if(strpos($fullUrl,"?unarchive=docu")==true){ ?>
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
+title: "Unarchived",
+text: "Document has been Unarchived !",
+icon: "success",
+confirmButtonColor: "#002742",
+confirmButtonText: "Ok",
+}); </script>
                       <?php
                           }
       

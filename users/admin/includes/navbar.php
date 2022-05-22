@@ -264,17 +264,17 @@
                         <span aria-hidden="true">×</span>
                     </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="overflow: auto">
       <?php
 
-$query = "SELECT * FROM history ORDER BY act DESC LIMIT 10";
+$query = "SELECT * FROM history ORDER BY hist_id DESC LIMIT 10";
 $query_run = mysqli_query($connection, $query);
 
 ?>
 <table class="table table-dark">
  <thead>
     <tr class="text-center">
-        <th>Performed</th>
+        <th >Performed</th>
         <th>Employee Name</th>
         <th>Date/Time</th>
         <th>Activity</th>
@@ -293,7 +293,7 @@ $query_run = mysqli_query($connection, $query);
 
     if(function_exists("facebook_time_ago") ===FALSE){
      function facebook_time_ago($timestamp)  
-     {      
+     {      date_default_timezone_set("Asia/Manila");
           $time_ago = strtotime($timestamp);  
           $current_time = time();  
           $time_difference = $current_time - $time_ago;  
@@ -375,7 +375,7 @@ $query_run = mysqli_query($connection, $query);
          }  
        }  
      }  }
-     date_default_timezone_set('America/New_York');  
+     date_default_timezone_set("Asia/Manila");
       echo facebook_time_ago($row['act']); 
      
      ?>  
@@ -422,7 +422,6 @@ $query_run = mysqli_query($connection, $query);
 </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <a href="history.php"><button type="button" class="btn btn-primary">View All</button></a>
       </div>
     </div>
@@ -432,7 +431,7 @@ $query_run = mysqli_query($connection, $query);
 
 <!-- Modal -->
 <div class="modal fade" id="activity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content ">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"> <i class="fa fa-history" aria-hidden="true"></i> Activity</h5>
@@ -440,41 +439,85 @@ $query_run = mysqli_query($connection, $query);
                         <span aria-hidden="true">×</span>
                     </button>
       </div>
-      <div class="modal-body">
-      <table class="table table-striped">
-  <thead>
+      <div class="modal-body" style="overflow: auto" >
+      <?php
+
+$query = "SELECT * FROM activity ORDER BY actid DESC LIMIT 5";
+$query_run = mysqli_query($connection, $query);
+
+?>
+<table style="font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  font-size:auto;
+  width: 100%;
+  overflow: hidden;">
+
+ <tbody>
+
+ <?php
+ if(mysqli_num_rows($query_run) > 0)
+
+ {
+  while ($row = mysqli_fetch_assoc($query_run))
+   {
+   
+    ?>
+
+ 
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+
+    
+    <td class="mr-3" >  <?php echo '<img src="Avatar/'.$row['avatar'].'" width="65px;" height="65px"; style="border-radius: 12%;"> <br><br>' ?>  </td>  
+        <td  class="text-dark ">  <?php 
+        if($row['Action']=="Deleted")
+        {
+  echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:red;font-weight:bold">'.$row['Action'].'</label>   <label style=color:black;>   '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Added"){
+  echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:green;font-weight:bold">'.$row['Action'].'</label>   <label style=color:black;>   '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Download"){
+   echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:limegreen; font-weight:bold">'.$row['Action'].'</label>    <label style=color:black;>  '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Archive"){
+          echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:orange;font-weight:bold">'.$row['Action'].'</label>  <label style=color:black;>    '.$row['filename'].' </label>  ';
+               }
+        else if($row['Action']=="Unarchive"){
+   echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:orange;font-weight:bold">'.$row['Action'].'</label>  <label style=color:black;>    '.$row['filename'].' </label>  ';
+          }
+        else if($row['Action']=="Deleted From Archive")
+          {
+    echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:red;font-weight:bold">'.$row['Action'].'</label>   <p style=color:black; >   '.$row['filename'].' </p>  ';
+          }
+        else{
+
+        }
+  echo '<p style="font-size:14px"> <i class="fa fa-clock-o"></i>'.' '.facebook_time_ago($row['ddate']).'</p></div>'; 
+
+ ?>  
+
+
+
+</td>
+  
+       
     </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
+
+    
+     <?php
+  }
+
+
+ } 
+ else{
+  echo "NO RECORD FOUND";
+ }
+ ?>
+ </tbody>
 </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">View All</button>
+      <a href="activities.php"><button type="button" class="btn btn-primary">View All</button></a>
       </div>
     </div>
   </div>

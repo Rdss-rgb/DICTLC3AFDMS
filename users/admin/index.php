@@ -71,7 +71,7 @@ include('includes/navbar.php');
 
 <div class="container-fluid">
   
-<h1 class="h4  text-grey-800">Dashboard</h1> 
+<h1 class="h5  text-grey-800">Dashboard</h1> 
 <div class="row"> 
     <div class="col-md-3">  
       <div class="card-counter text-white  card border bg-primary">
@@ -95,7 +95,17 @@ include('includes/navbar.php');
     <div class="col-md-3">
       <div class="card-counter text-white card border bg-warning" >
         <i class="fa fa-archive" style="color:white"></i>
-        <span class="count-numbers">10</span>
+        <span class="count-numbers"> <?php 
+     require 'security.php';
+
+    
+     $sql="SELECT * FROM filemanage where status='archive' "; 
+     $query_run=mysqli_query($connection,$sql);
+      
+     $row=mysqli_num_rows($query_run);
+
+     echo $row;
+   ?></span>
         <span class="count-name">Archive</span><br>
         <a href="archive.php" class="stretched-link"></a>
       </div>
@@ -108,7 +118,7 @@ include('includes/navbar.php');
      require 'security.php';
 
     
-     $sql="SELECT * FROM filemanage "; 
+     $sql="SELECT * FROM filemanage  "; 
      $query_run=mysqli_query($connection,$sql);
       
      $row=mysqli_num_rows($query_run);
@@ -131,18 +141,161 @@ include('includes/navbar.php');
     
   </div>
  
-  <div class="row">
-  <div class="col-md-9 mt-4">  <div class="card ">
-  <div class="card-header">
-  Recent Documents 
-  <a href="all.php"><b style="float:right">View All <i class="fa fa-caret-right" aria-hidden="true"></i></b></a>
+  <div class="row ">
+  <div class="col-md-9 mt-4">  <div class="card " style="min-height:435px">
+
+  <div class="card-body ">
+  <p>
+  <b style="color:#4e73df; ">Mission</b><br>
+<ul>
+<i><b>“DICT of the people and for the people.”</b></i><br>
+
+The Department of Information and Communications Technology commits to:<br>
+<ul>
+<li>Provide every Filipino access to vital ICT infostructure and services</li>
+<li>Ensure sustainable growth of Philippine ICT-enabled industries resulting to creation of more jobs</li>
+<li>Establish a One Digitized Government, One Nation</li>
+<li>Support the administration in fully achieving its goals</li>
+<li>Be the enabler, innovator, achiever and leader in pushing the country’s development and transition towards a world-class digital economy</li>
+</ul></ul>
+<b style="color:#4e73df;">Vision</b><br><ul>
+
+<i><b>“An innovative, safe and happy nation that thrives through and is enabled by Information and Communications Technology.”</b></i><br>
+
+DICT aspires for the Philippines to develop and flourish through innovation and constant development of ICT in the pursuit of a progressive, safe, secured, contented and happy Filipino nation.
+<br>
+
+</ul>
+
+<b style="color:#4e73df;">Core Values</b><br>
+<ul>
+<b style="color:blue;">D </b>– Dignity
+<b style="color:#cf9b17;">I </b>– Integrity
+<b style="color:red;">C </b>– Competency and Compassion
+<b style="color:gray;">T </b>– Transparency</p>
+</ul>
   </div>
+ 
+</div></div>
+ <div class="col-md-3 mt-4">  
+    
+<div class="card ">
+  <div class="card-header">
+<b>Document types</b>
+  </div>
+        <div class="chart">
+            <canvas id="doughnut_chart"></canvas>
+</div>
+
+</div>
+
+
+  </div>
+  </div>  
+
+  <div class="row">
+    <div class="col-md-4 mt-4"> 
+      <div class="card ">
+         <div class="card-header">
+         <b> Activity Updates </b>
+               <a href="activities.php"><b style="float:right">View All <i class="fa fa-caret-right" aria-hidden="true"></i></b></a>
+         </div>
+
   <div class="card-body ">
   <div class ="table-responsive mt-1">
     
-<?php
+  <?php
 
-$query = "SELECT * FROM filemanage ORDER BY id DESC LIMIT 10";
+$query = "SELECT * FROM activity ORDER BY actid DESC LIMIT 4";
+$query_run = mysqli_query($connection, $query);
+
+?>
+<table style="font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  font-size:auto;
+  width: 100%;">
+
+ <tbody>
+
+ <?php
+ if(mysqli_num_rows($query_run) > 0)
+
+ {
+  while ($row = mysqli_fetch_assoc($query_run))
+   {
+   
+    ?>
+
+ 
+    <tr>
+
+    
+    <td class="mr-3" >  <?php echo '<img src="Avatar/'.$row['avatar'].'" width="55px;" height="55px"; style="border-radius: 50%;"> <br><br>' ?>  </td>  
+        <td  class="text-dark ">  <?php 
+        if($row['Action']=="Deleted")
+        {
+  echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:red;font-weight:bold">'.$row['Action'].'</label>   <label style=color:black;>   '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Added"){
+  echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:green;font-weight:bold">'.$row['Action'].'</label>   <label style=color:black;>   '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Download"){
+   echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:limegreen; font-weight:bold">'.$row['Action'].'</label>    <label style=color:black;>  '.$row['filename'].' </label>  ';
+        }
+        else if($row['Action']=="Archive"){
+          echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:orange;font-weight:bold">'.$row['Action'].'</label>  <label style=color:black;>    '.$row['filename'].' </label>  ';
+               }
+         else if($row['Action']=="Unarchive"){
+          echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:orange;font-weight:bold">'.$row['Action'].'</label>  <label style=color:black;>    '.$row['filename'].' </label>  ';
+                }
+                else if($row['Action']=="Deleted From Archive")
+                {
+          echo '<div style="width:95%; float:right"><label style=color:black;font-weight:bold>'.$row['name'].'</label> <label style="color:red;font-weight:bold">'.$row['Action'].'</label>   <p style=color:black; >   '.$row['filename'].' </p>  ';
+                }
+        else{
+
+        }
+  echo '<p style="font-size:14px"> <i class="fa fa-clock-o"></i>'.' '.facebook_time_ago($row['ddate']).'</p></div>'; 
+
+ ?>  
+
+
+
+</td>
+  
+       
+    </tr>
+
+    
+     <?php
+  }
+
+
+ } 
+ else{
+  echo "NO RECORD FOUND";
+ }
+ ?>
+ </tbody>
+</table>
+
+</div>
+  </div>
+   </div>
+     </div>
+     <div class="col-md-8 mt-4"> 
+      <div class="card ">
+         <div class="card-header">
+         <b> Recent Documents </b>
+               <a href="all.php"><b style="float:right">View All <i class="fa fa-caret-right" aria-hidden="true"></i></b></a>
+         </div>
+
+  <div class="card-body ">
+  <div class ="table-responsive mt-1">
+    
+  <?php
+
+$query = "SELECT * FROM filemanage Where Status='Display' ORDER BY id DESC LIMIT 10";
 $query_run = mysqli_query($connection, $query);
 
 ?>
@@ -223,25 +376,11 @@ $query_run = mysqli_query($connection, $query);
 
 </div>
   </div>
- 
-</div></div>
- <div class="col-md-3 mt-4">  
-    
- 
-
-<div class="card ">
-  <div class="card-header">
-Document types
-  </div>
-        <div class="chart">
-            <canvas id="doughnut_chart"></canvas>
-</div>
-</div>
+   </div>
+     </div>
 
 
-  </div>
-  
-  </div>
+
  </div> 
  
 </div>

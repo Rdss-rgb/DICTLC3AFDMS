@@ -16,7 +16,7 @@
 
     <!-- Page level custom scripts -->
  
-    
+    <script src = "https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src = "https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
     <script src = "https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap4.min.js"></script>
 
@@ -27,6 +27,10 @@
    
     <script src = "https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
     <script src = "https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script>
 
@@ -57,6 +61,30 @@ $(document).ready(function() {
 
 </script>
 
+
+<script>
+
+$(document).ready(function() {
+    $('#DataTableExp11').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+           'print'
+        ],
+        order: [[ 0, "desc"]],
+
+        "columnDefs": [
+          {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": true
+            },
+          
+        ]
+    } );
+} );
+
+</script>
+
 <script>
 
 $(document).ready(function() {
@@ -64,6 +92,14 @@ $(document).ready(function() {
         dom: 'Bfrtip',
         buttons: [
            'print'
+        ],
+        order: [[ 0, "desc" ]],
+        "columnDefs": [
+          {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": true
+            },
         ]
     } );
 } );
@@ -124,6 +160,24 @@ $(document).ready(function() {
             }
         ]
        
+    } );
+} );
+</script>
+
+
+<script>
+    $(document).ready(function() {
+    $('#DataTableYep1').DataTable( {
+        order: [[ 0, "desc" ]],
+        scrollY:        620,
+        processing: true,
+        scrollX:        true,
+        paging:         false,
+        scrollCollapse: true,
+        fixedColumns:   true,
+        select:         true,
+        
+      
     } );
 } );
 </script>
@@ -223,36 +277,6 @@ $(document).ready(function() {
     } );
 } );
 </script>
-
-
-
-<!-- Sweet Alerts -->
-
-<?php
-if(isset($_SESSION['status']) && $_SESSION['status'] !='')
-{
-   ?>
-<script>
-      Swal.fire({
-      title: "<?php echo $_SESSION ['status']; ?>",
-      icon: "<?php echo $_SESSION ['status_code']; ?>",
-      button: "OK Done!",
-      });
-
-</script>
-   <?php
-unset ($_SESSION['status']);
-}
-?>
-
-</script>
-
-<!-- Google Pie Charts -->
-
-<?php
-
-include('database/dbconfig.php');
-?>
 
 
 

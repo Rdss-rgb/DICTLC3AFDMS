@@ -52,20 +52,17 @@ function formatBytes($bytes, $precision = 2) {
     
 <?php
 
-$query = "SELECT * FROM filemanage WHERE access NOT IN (('docx'),('xlsx'),('doc'),('pdf'),('pptx'),('ppt')) ORDER BY id"; 
+$query = "SELECT * FROM filemanage WHERE status='Display' && access NOT IN (('docx'),('xlsx'),('doc'),('pdf'),('pptx'),('ppt')) ORDER BY id"; 
 $query_run = mysqli_query($connection, $query);
 
 ?>
-<table  id="DataTableYep3" class = "table table-boardered" width="100%" cellspacing="0" style = "color:black">
+<table  id="DataTableYep1" class = "table table-boardered" width="100%" cellspacing="0" style = "color:black">
  <thead>
     <tr>
-        <th>ID </th>
         <th>File Name</th>
         <th>File Type</th>
         <th>File Size</th>
         <th>Download</th>
-        <th>Archive</th>
-        <th>Delete</th>
     </tr>
  </thead>
  <tbody>
@@ -85,14 +82,17 @@ $query_run = mysqli_query($connection, $query);
     ?>
 <?php
 $docxmeta = new docxmetadata();
-$docxfile = "lfupload/$filename"; 
+$docxfile = "../admin/lfupload/$filename"; 
 
 ?>  
 
 <tr>
-<td> <?php echo $row['id']; ?> </td>
 <td> <?php echo $row['file']; ?> </td>
+<td> <?php
+$path_info = pathinfo($docxfile);
+echo $path_info['extension'];
 
+?> </td>
 <td>
 <?php
 
@@ -103,32 +103,17 @@ $total = formatBytes    ($filesize);
 echo $total;
 ?>
 </td>
-<td> <?php
-$path_info = pathinfo($docxfile);
-echo $path_info['extension'];
 
-?> </td>
 
 
 <td>
-        <form action="#" method= "post">
+        <form action="Dl.php" method= "post">
         <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
         <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
         </form>
         </td>
 
-        <td>
-                <form action="#" method="post">
-                  <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                  <button type="submit" name="adddelete_btn" class="btn btn-warning"> Archive</button>
-                </form>
-        </td>
-        <td>
-                <form action="code.php" method="post">
-                  <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                  <button type="submit" name="adddelete_btn" class="btn btn-danger"> Delete</button>
-                </form>
-        </td>
+       
        
     </tr>
 
@@ -142,6 +127,49 @@ echo $path_info['extension'];
   echo "NO RECORD FOUND";
  }
  ?>
+  <script>
+        $('.arc-btn').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Archive Document',
+                text: "Are you sure you ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
+
+
+
+<script>
+        $('.arc-btn1').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Delete Document',
+                text: "Are you sure you delete this Document ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
  </tbody>
  </table>
 

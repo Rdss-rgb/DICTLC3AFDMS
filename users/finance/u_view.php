@@ -31,7 +31,7 @@ body{
 }
 .profile-img img{
     width: 70%;
-    height: 100%;
+    height: 50%;
     border-radius: 5px 5px;
 }
 .profile-img .file {
@@ -370,6 +370,14 @@ body{
                                                 <input style="color:black; font-size:18px;" class="form-control form-control-user mb-4" value="<?php echo $row['email'] ?>" type="email" name="email"  id="email" placeholder="E-mail"  required> 
                                                 <label for="floatingInput"><i class="fa fa-envelope-o"  style="color:blue"></i> Email  <br><br> </label>
                                             </div>
+
+                                            <div class="form-group">
+                                                <select id="sele" name="sele" class="form-select" aria-label="Default select example">
+                                                <option value="Admin" <?php if($row['role']=="Admin"){ echo "selected";  }?>>Admin</option>
+                                                <option value="Staff" <?php if($row['role']=="Staff"){ echo "selected";  }?>>Staff</option>
+                                                <option value="Finance" <?php if($row['role']=="Finance"){ echo "selected";  }?>>Finance</option>
+                                                </select>
+                                                </div>
 
                                             <div class="form-floating">
                                                 <input style="color:black; font-size:18px;" class="form-control form-control-user mb-4" value="<?php echo $row['username'] ?>" type="text" name="username"  id="username" placeholder="username" readonly> 

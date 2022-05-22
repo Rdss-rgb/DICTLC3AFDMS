@@ -31,13 +31,14 @@ include('ry.php');
     
 <?php
 
-$query = "SELECT * FROM history ORDER BY act DESC ";
+$query = "SELECT * FROM history ORDER BY hist_id DESC";
 $query_run = mysqli_query($connection, $query);
 
 ?>
 <table id="DataTableExp"  class = "table table-boardered" width="100%" cellspacing="0" style = "color:black">
  <thead>
     <tr class="text-center">
+    <th>His_id</th>
         <th>Performed</th>
         <th>Employee Name</th>
         <th>Date/Time</th>
@@ -53,14 +54,13 @@ $query_run = mysqli_query($connection, $query);
   while ($row = mysqli_fetch_assoc($query_run))
    {
    
-    ?> <td> <?php
+    ?>  <td> <?php echo $row['hist_id']; ?> </td><td> <?php
 
-    if(function_exists("facebook_time_ago") ===FALSE){
-     function facebook_time_ago($timestamp)  
-     {      
+    if(function_exists("facebook_time_ago1") ===FALSE){
+     function facebook_time_ago1($timestamp)  
+     {     date_default_timezone_set("Asia/Manila");
           $time_ago = strtotime($timestamp);  
-          $current_time = time();  
-          $time_difference = $current_time - $time_ago;  
+          $time_difference =  time()- $time_ago;  
           $seconds = $time_difference;  
           $minutes      = round($seconds / 60 );           // value 60 is seconds  
           $hours           = round($seconds / 3600);           //value 3600 is 60 minutes * 60 sec  
@@ -70,7 +70,7 @@ $query_run = mysqli_query($connection, $query);
           $years          = round($seconds / 31553280);     //(365+365+365+365+366)/5 * 24 * 60 * 60  
           if($seconds <= 60)  
           {  
-         return "Just Now";  
+         return "Just now";  
        }  
           else if($minutes <=60)  
           {  
@@ -139,8 +139,8 @@ $query_run = mysqli_query($connection, $query);
          }  
        }  
      }  }
-     date_default_timezone_set('America/New_York');  
-      echo facebook_time_ago($row['act']); 
+     date_default_timezone_set("Asia/Manila");  
+      echo facebook_time_ago1($row['act']); 
      
      ?>  
     

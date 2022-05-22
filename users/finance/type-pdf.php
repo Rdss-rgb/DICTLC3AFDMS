@@ -77,7 +77,7 @@ function FileSizeConvert($bytes)
     
 <?php
 
-$query = "SELECT * FROM filemanage WHERE access IN ('pdf') ORDER BY id"; 
+$query = "SELECT * FROM filemanage WHERE status='Display' && access IN ('pdf') ORDER BY id"; 
 $query_run = mysqli_query($connection, $query);
 
 ?>
@@ -91,7 +91,7 @@ $query_run = mysqli_query($connection, $query);
         <th>File Size</th>
         <th>View</th>
         <th>Download</th>
-        <th>Delete</th>
+
     </tr>
  </thead>
  <tbody>
@@ -111,7 +111,7 @@ $query_run = mysqli_query($connection, $query);
     ?>
 <?php
 $docxmeta = new docxmetadata();
-$docxfile = "lfupload/$filename"; 
+$docxfile = "../admin/lfupload/$filename"; 
 
 ?>  
 
@@ -125,7 +125,7 @@ $parser = new \Smalot\PdfParser\Parser();
 $pdf = $parser->parseFile($docxfile);
 
 $text = $pdf->getText();
-echo mb_strimwidth($text,0 ,3000, "...");
+echo $text;
 ?>
  </td>
 <td> <?php
@@ -142,19 +142,14 @@ echo $total;
         <button type ="submit" name="edit_btn" class = "btn btn-success">View</button>
         </form>
         </td>
-<td>
-        <form action="#" method= "post">
+        <td>
+        <form action="Dl.php" method= "post">
         <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
         <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
         </form>
         </td>
 
-        <td>
-                <form action="code.php" method="post">
-                  <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                  <button type="submit" name="adddelete_btn" class="btn btn-danger"> DELETE</button>
-                </form>
-        </td>
+     
        
     </tr>
 
@@ -168,6 +163,49 @@ echo $total;
   echo "NO RECORD FOUND";
  }
  ?>
+  <script>
+        $('.arc-btn').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Archive Document',
+                text: "Are you sure you ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
+
+
+
+<script>
+        $('.arc-btn1').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Delete Document',
+                text: "Are you sure you delete this Document ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
  </tbody>
  </table>
 
@@ -176,7 +214,7 @@ echo $total;
 </div>
 </div>
 </div>
-
+</div>
 
 
 

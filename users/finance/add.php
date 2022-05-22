@@ -19,7 +19,7 @@ include('includes/navbar.php');
     <div class ="card-shadow-mb-4">
       <div class ="card-header-py-3">
        
-        <button type="button" title="Add User" class="btn btn-success mt-3 mb-3" data-toggle="modal" data-target="#add"> <h5 class ="m-0 font-weight-bold text-dark-100"><i style="font-size:20px; color:white" class="fa fa-plus"></i> Add a Document</h5></button>
+        <button type="button" title="Add Document" class="btn btn-success mt-3 mb-3" data-toggle="modal" data-target="#add"> <h5 class ="m-0 font-weight-bold text-dark-100"><i style="font-size:20px; color:white" class="fa fa-plus"></i> Add a Document</h5></button>
  <!-- Modal Add-->
  <h5 class ="m-0 font-weight-bold text-dark-100">Recently Added Files</h5>
 <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
@@ -65,8 +65,8 @@ include('includes/navbar.php');
 <div class ="table-responsive">
     
 <?php
-
-$query = "SELECT * FROM filemanage ORDER BY id DESC";
+$sr=$_SESSION['Uname'];
+$query = "SELECT * FROM filemanage Where addby='$sr' ORDER BY id DESC";
 $query_run = mysqli_query($connection, $query);
 
 ?>
@@ -97,7 +97,7 @@ $query_run = mysqli_query($connection, $query);
                         ?>
 <?php
 $docxmeta = new docxmetadata();
-$docxfile = "lfupload/$filename"; 
+$docxfile = "../admin/lfupload/$filename"; 
 
 ?>  
 
@@ -111,19 +111,14 @@ echo $path_info['extension'];
 ?> </td>
       
 
-        <td>
-        <form action="#" method= "post">
+      <td>
+        <form action="Dl.php" method= "post">
         <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
         <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
         </form>
         </td>
 
-        <td>
-                <form action="code.php" method="post">
-                  <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                  <button type="submit" name="adddelete_btn" class="btn btn-danger"> DELETE</button>
-                </form>
-        </td>
+        <td><a href="code.php?delete4=<?php echo $row['id'];?>" class='btn btn-danger arc-btn1'><i   class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
 
        
     </tr>
@@ -138,6 +133,49 @@ echo $path_info['extension'];
   echo "NO RECORD FOUND";
  }
  ?>
+  <script>
+        $('.arc-btn').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Archive Document',
+                text: "Are you sure you ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
+
+
+
+<script>
+        $('.arc-btn1').on('click',function(e){
+            e.preventDefault();
+            const href = $(this).attr('href') 
+            Swal.fire({
+                title: 'Delete Document',
+                text: "Are you sure you delete this Document ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        document.location.href = href;   
+                    }
+                })
+                
+         })
+    </script>
  </tbody>
 </table>
 

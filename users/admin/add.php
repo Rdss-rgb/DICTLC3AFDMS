@@ -19,7 +19,7 @@ include('includes/navbar.php');
     <div class ="card-shadow-mb-4">
       <div class ="card-header-py-3">
        
-        <button type="button" title="Add User" class="btn btn-success mt-3 mb-3" data-toggle="modal" data-target="#add"> <h5 class ="m-0 font-weight-bold text-dark-100"><i style="font-size:20px; color:white" class="fa fa-plus"></i> Add a Document</h5></button>
+        <button type="button" title="Add Document" class="btn btn-success mt-3 mb-3" data-toggle="modal" data-target="#add"> <h5 class ="m-0 font-weight-bold text-dark-100"><i style="font-size:20px; color:white" class="fa fa-plus"></i> Add a Document</h5></button>
  <!-- Modal Add-->
  <h5 class ="m-0 font-weight-bold text-dark-100">Recently Added Files</h5>
 <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
@@ -66,7 +66,7 @@ include('includes/navbar.php');
     
 <?php
 
-$query = "SELECT * FROM filemanage ORDER BY id DESC";
+$query = "SELECT * FROM filemanage Where status='Display'ORDER BY id DESC";
 $query_run = mysqli_query($connection, $query);
 
 ?>
@@ -111,14 +111,14 @@ echo $path_info['extension'];
 ?> </td>
       
 
-        <td>
-        <form action="#" method= "post">
+      <td>
+        <form action="Dl.php" method= "post">
         <input type="hidden" name = "edit_id" value = "<?php echo $row['id']; ?>">
         <button type ="submit" name="edit_btn" class = "btn btn-success">Download</button>
         </form>
         </td>
 
-        <td><a href="code.php?delete=<?php echo $row['id'];?>" class='btn btn-danger arc-btn1'><i   class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
+        <td><a href="code.php?delete4=<?php echo $row['id'];?>" class='btn btn-danger arc-btn1'><i   class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
 
        
     </tr>

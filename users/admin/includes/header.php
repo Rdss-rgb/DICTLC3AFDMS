@@ -26,9 +26,6 @@
     <link href="css/print.css" rel="stylesheet"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
     <link href= "https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    
-    <link href= "https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link href= "https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
    
 
 
@@ -60,6 +57,7 @@
   <!--officeToHtml-->
   <script src="./include/officeToHtml/officeToHtml.js"></script>
   <link rel="stylesheet" href="./include/officeToHtml/officeToHtml.css">
+  
 
 <script type="text/javascript">
 window.addEventListener('load',function(){
@@ -121,51 +119,55 @@ Toast.fire({
           
             }
             else if(strpos($fullUrl,"?errorr=add")==true){ ?>
-              <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>swal({
+              <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
       title: "Error",
       text: "Document cannot be Added!",
       icon: "error",
       button: "Ok",
     });</script>
-     <?php
-          
-        }
-        else if(strpos($fullUrl,"?delete=docu")==true){ ?>
-           <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
-<script>swal.fire({
-  title: "Delete Document",
-  text: "Document has been Deleted!",
-  icon: "success",
-  confirmButtonColor: "#002742",
-  confirmButtonText: "Ok",
+    </script>
+    
+    <?php
+    
+      }
+      else if(strpos($fullUrl,"?delete=docu")==true){ ?>
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
+title: "Deleted",
+text: "Document Successfully Deleted!",
+icon: "success",
+confirmButtonColor: "#002742",
+confirmButtonText: "Ok",
 });</script>
- <?php
-          
-        }
-        else if(strpos($fullUrl,"?archive=docu")==true){ ?>
-           <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
-<script>swal.fire({
-  title : ' Archived Document',
-  text : 'Document has been archived!',
-  icon: 'success',
-  confirmButtonColor: "#002742",
-  confirmButtonText: "Ok",
-});</script>
-</script>
- <?php
-          
-        }
-        else if(strpos($fullUrl,"?unarchive=docu")==true){ ?>
-           <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
-<script>swal.fire({
-  title : 'Unarchive Document',
-  text : 'Document has been Unarchived!',
-  icon: 'success',
-  confirmButtonColor: "#002742",
-  confirmButtonText: "Ok",
-});</script>
-
+ </script>
+    
+    <?php
+    
+      }
+      else if(strpos($fullUrl,"?archive=docu")==true){ ?>
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
+title: "Archived",
+text: "Document has been Archived !",
+icon: "success",
+confirmButtonColor: "#002742",
+confirmButtonText: "Ok",
+}); </script>
+ </script>
+    
+    <?php
+    
+      }
+      else if(strpos($fullUrl,"?unarchive=docu")==true){ ?>
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+<script>Swal.fire({
+title: "Unarchived",
+text: "Document has been Unarchived !",
+icon: "success",
+confirmButtonColor: "#002742",
+confirmButtonText: "Ok",
+}); </script>
                       <?php
                           }
       

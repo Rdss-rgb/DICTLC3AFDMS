@@ -40,7 +40,7 @@ include('includes/navbar.php');
                         $filename = $row['file'];
                         ?>
                         <?php
-                        $docxfile = "lfupload/$filename";
+                        $docxfile = "../admin/lfupload/$filename";
                         ?>
         <!--<div id="resolte-contaniner" style="display:none;"></div>-->
         <div style="overflow: auto;width: 100%; color:black">
